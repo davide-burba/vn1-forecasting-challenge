@@ -1,0 +1,154 @@
+engine_params:
+  colsample_bytree: 0.8
+  learning_rate: 0.12648552168552957
+  max_depth: 11
+  min_child_samples: 7
+  n_estimators: 362
+  num_leaves: 107
+  subsample: 0.55
+  verbose: 0
+multi_horizon: true
+preprocessing_config:
+  data_feature_eng_list:
+  - feature_eng_list:
+    - kind: rolling
+      params:
+        statistic: mean
+        window: 4
+    - kind: rolling
+      params:
+        statistic: mean
+        window: 8
+    - kind: rolling
+      params:
+        statistic: mean
+        window: 12
+    - kind: rolling
+      params:
+        statistic: mean
+        window: 26
+    - kind: rolling
+      params:
+        statistic: mean
+        window: 52
+    - kind: lag
+      params:
+        lag: 0
+    - kind: lag
+      params:
+        lag: 1
+    - kind: lag
+      params:
+        lag: 2
+    - kind: lag
+      params:
+        lag: 3
+    - kind: lag
+      params:
+        lag: 4
+    - kind: lag
+      params:
+        lag: 5
+    - kind: lag
+      params:
+        lag: 6
+    - kind: lag
+      params:
+        lag: 7
+    - kind: lag
+      params:
+        lag: 11
+    - kind: lag
+      params:
+        lag: 15
+    - kind: lag
+      params:
+        lag: 19
+    - kind: lag
+      params:
+        lag: 25
+    - kind: lag
+      params:
+        lag: 51
+    groupby: null
+    source: sales
+  - feature_eng_list:
+    - kind: lag
+      params:
+        lag: 0
+    - kind: lag
+      params:
+        lag: 1
+    - kind: lag
+      params:
+        lag: 2
+    - kind: lag
+      params:
+        lag: 3
+    groupby:
+    - Warehouse
+    source: sales
+  - feature_eng_list:
+    - kind: lag
+      params:
+        lag: 0
+    - kind: lag
+      params:
+        lag: 1
+    - kind: lag
+      params:
+        lag: 2
+    - kind: lag
+      params:
+        lag: 3
+    groupby:
+    - Client
+    source: sales
+  - feature_eng_list:
+    - kind: rolling
+      params:
+        statistic: mean
+        window: 4
+    - kind: rolling
+      params:
+        statistic: mean
+        window: 8
+    - kind: rolling
+      params:
+        statistic: mean
+        window: 12
+    - kind: rolling
+      params:
+        statistic: mean
+        window: 26
+    - kind: rolling
+      params:
+        statistic: mean
+        window: 52
+    - kind: lag
+      params:
+        lag: 0
+    - kind: lag
+      params:
+        lag: 1
+    - kind: lag
+      params:
+        lag: 2
+    - kind: lag
+      params:
+        lag: 3
+    groupby: null
+    source: price
+  date_features:
+  - year
+  - month
+  - day
+  normalize_price: false
+  normalize_sales: false
+  static_feature_list:
+  - categorical: true
+    name: Client
+  - categorical: true
+    name: Warehouse
+  - categorical: true
+    name: Product
