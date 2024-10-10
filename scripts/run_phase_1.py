@@ -1,3 +1,4 @@
+import os
 from pathlib import Path
 
 import mlflow
@@ -37,7 +38,12 @@ def main(
         print("sanity check and dump")
         validate_submission(submission, PATH_EXAMPLE_SUBMISSION)
         if dump_submission_locally:
-            submission.to_csv("submission_phase_1.csv", index=False)
+            run_id = mlflow.active_run().info.run_id
+            os.makedirs("submissions", exist_ok=True)
+            submission.to_csv(
+                f"submissions/submission_phase_1_{run_id}.csv",
+                index=False,
+            )
         track_submission_with_mlflow(submission)
 
 
