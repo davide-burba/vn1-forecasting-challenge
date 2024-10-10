@@ -1,3 +1,4 @@
+import os
 from pathlib import Path
 
 import mlflow
@@ -9,7 +10,6 @@ from vn1.forecaster import Forecaster
 from vn1.submission import track_submission_with_mlflow
 
 PATH_RAW_DATA = Path("data/raw/")
-PATH_EXAMPLE_SUBMISSION = PATH_RAW_DATA / "Submission Phase 2 - Random (3).csv"
 
 
 def main(
@@ -36,7 +36,11 @@ def main(
 
         print("dump")
         if dump_submission_locally:
-            submission.to_csv("submission_phase_2.csv", index=False)
+            run_id = mlflow.active_run().info.run_id
+            os.makedirs("submissions", exist_ok=True)
+            submission.to_csv(
+                f"submissions/submission_phase_2_{run_id}.csv", index=False
+            )
         track_submission_with_mlflow(submission)
 
 
