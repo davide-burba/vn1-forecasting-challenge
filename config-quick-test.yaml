@@ -1,0 +1,31 @@
+engine_params:
+  n_estimators: 1
+  verbose: 0
+
+
+include_horizon_feature: true
+include_horizon_day: true
+include_horizon_month: true
+include_horizon_year: true
+multi_horizon: true
+
+preprocessing_config:
+  data_feature_eng_list:
+  - feature_eng_list:
+    - kind: lag
+      params:
+        lag: 0
+    - kind: rolling
+      params:
+        statistic: std
+        window: 4
+    groupby: null
+    source: sales
+  
+  date_features:
+  - month
+  normalize_price: false
+  normalize_sales: false
+  static_feature_list:
+  - categorical: true
+    name: Client
