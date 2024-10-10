@@ -1,0 +1,272 @@
+engine_params:
+  colsample_bytree: 0.6
+  learning_rate: 0.033
+  max_depth: 11
+  min_child_samples: 25
+  n_estimators: 500
+  num_leaves: 220
+  subsample: 0.5
+  verbose: 0
+include_horizon_day: true
+include_horizon_feature: true
+include_horizon_month: true
+include_horizon_year: true
+multi_horizon: true
+preprocessing_config:
+  data_feature_eng_list:
+  - feature_eng_list:
+    - kind: lag
+      params:
+        lag: 0
+    - kind: lag
+      params:
+        lag: 1
+    - kind: lag
+      params:
+        lag: 2
+    - kind: lag
+      params:
+        lag: 3
+    - kind: lag
+      params:
+        lag: 4
+    - kind: lag
+      params:
+        lag: 5
+    - kind: lag
+      params:
+        lag: 6
+    - kind: lag
+      params:
+        lag: 7
+    - kind: lag
+      params:
+        lag: 11
+    - kind: lag
+      params:
+        lag: 15
+    - kind: lag
+      params:
+        lag: 19
+    - kind: lag
+      params:
+        lag: 25
+    - kind: lag
+      params:
+        lag: 51
+    - kind: lag
+      params:
+        lag: 103
+    - kind: rolling
+      params:
+        statistic: mean
+        window: 4
+    - kind: rolling
+      params:
+        statistic: mean
+        window: 8
+    - kind: rolling
+      params:
+        statistic: mean
+        window: 12
+    - kind: rolling
+      params:
+        statistic: mean
+        window: 26
+    - kind: rolling
+      params:
+        statistic: mean
+        window: 52
+    - kind: rolling
+      params:
+        statistic: mean
+        window: 104
+    - kind: rolling
+      params:
+        statistic: std
+        window: 4
+    - kind: rolling
+      params:
+        statistic: std
+        window: 8
+    - kind: rolling
+      params:
+        statistic: std
+        window: 12
+    - kind: rolling
+      params:
+        statistic: std
+        window: 26
+    - kind: rolling
+      params:
+        statistic: std
+        window: 52
+    - kind: rolling
+      params:
+        statistic: std
+        window: 104
+    - kind: rolling
+      params:
+        statistic: max
+        window: 4
+    - kind: rolling
+      params:
+        statistic: max
+        window: 8
+    - kind: rolling
+      params:
+        statistic: max
+        window: 12
+    - kind: rolling
+      params:
+        statistic: max
+        window: 26
+    - kind: rolling
+      params:
+        statistic: max
+        window: 52
+    - kind: rolling
+      params:
+        statistic: max
+        window: 104
+    groupby: null
+    source: sales
+  - feature_eng_list:
+    - kind: lag
+      params:
+        lag: 0
+    - kind: lag
+      params:
+        lag: 1
+    - kind: lag
+      params:
+        lag: 2
+    - kind: lag
+      params:
+        lag: 3
+    - kind: rolling
+      params:
+        statistic: mean
+        window: 4
+    - kind: rolling
+      params:
+        statistic: mean
+        window: 8
+    - kind: rolling
+      params:
+        statistic: mean
+        window: 12
+    - kind: rolling
+      params:
+        statistic: mean
+        window: 26
+    - kind: rolling
+      params:
+        statistic: mean
+        window: 52
+    - kind: rolling
+      params:
+        statistic: mean
+        window: 104
+    - kind: rolling
+      params:
+        statistic: std
+        window: 4
+    - kind: rolling
+      params:
+        statistic: std
+        window: 8
+    - kind: rolling
+      params:
+        statistic: std
+        window: 12
+    - kind: rolling
+      params:
+        statistic: std
+        window: 26
+    - kind: rolling
+      params:
+        statistic: std
+        window: 52
+    - kind: rolling
+      params:
+        statistic: std
+        window: 104
+    groupby:
+    - Warehouse
+    source: sales
+  - feature_eng_list:
+    - kind: lag
+      params:
+        lag: 0
+    - kind: lag
+      params:
+        lag: 1
+    - kind: lag
+      params:
+        lag: 2
+    - kind: lag
+      params:
+        lag: 3
+    - kind: lag
+      params:
+        lag: 4
+    - kind: lag
+      params:
+        lag: 5
+    - kind: lag
+      params:
+        lag: 6
+    - kind: lag
+      params:
+        lag: 7
+    - kind: lag
+      params:
+        lag: 11
+    - kind: lag
+      params:
+        lag: 15
+    - kind: lag
+      params:
+        lag: 19
+    - kind: lag
+      params:
+        lag: 25
+    - kind: lag
+      params:
+        lag: 51
+    - kind: lag
+      params:
+        lag: 103
+    groupby:
+    - Client
+    source: sales
+  - feature_eng_list:
+    - kind: lag
+      params:
+        lag: 0
+    - kind: lag
+      params:
+        lag: 1
+    - kind: lag
+      params:
+        lag: 2
+    - kind: lag
+      params:
+        lag: 3
+    groupby:
+    - Product
+    source: sales
+  date_features:
+  - year
+  - month
+  - day
+  normalize_price: false
+  normalize_sales: false
+  static_feature_list:
+  - categorical: true
+    name: Client
+  - categorical: true
+    name: Warehouse
+  - categorical: true
+    name: Product
