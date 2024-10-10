@@ -12,7 +12,11 @@ PATH_RAW_DATA = Path("data/raw/")
 PATH_EXAMPLE_SUBMISSION = PATH_RAW_DATA / "Submission Phase 1 - Random (3).csv"
 
 
-def main(config_path: str = "config.yaml", skip_cross_validation: bool = False):
+def main(
+    config_path: str = "config.yaml",
+    skip_cross_validation: bool = False,
+    dump_submission_locally: bool = False,
+):
     mlflow.set_experiment("phase_1")
     with mlflow.start_run():
         print("load inputs")
@@ -32,6 +36,8 @@ def main(config_path: str = "config.yaml", skip_cross_validation: bool = False):
 
         print("sanity check and dump")
         validate_submission(submission, PATH_EXAMPLE_SUBMISSION)
+        if dump_submission_locally:
+            submission.to_csv("submission_phase_1.csv", index=False)
         track_submission_with_mlflow(submission)
 
 
