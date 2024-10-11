@@ -1,3 +1,5 @@
+import os
+
 import mlflow
 import pandas as pd
 from lightgbm import LGBMRegressor
@@ -209,6 +211,7 @@ class Forecaster:
             score = compute_competition_score(y_test, y_pred)
             print(f"Fold {fold} score: {score}")
             mlflow.log_metric(f"score_fold_{fold}", score)
+            log_cv_predictions(y_pred, y_test, fold)
             end_quantile -= delta_quantile
             scores.append(score)
 
@@ -321,3 +324,11 @@ class Forecaster:
             self.config.preprocessing_config.date_features,
         )
         return preprocessor.prepare_data(sales, price)
+
+
+def log_cv_predictions(y_pred, y_test, fold):
+    run_id = mlflow.active_run().info.run_id
+    path = f"/tmp/predictions_{run_id}_fold_{fold}.p"
+    pd.to_pickle((y_pred, y_test), path)
+    mlflow.log_artifact(path)
+    os.remove(path)
