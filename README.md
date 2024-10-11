@@ -22,13 +22,13 @@ Submissions for both competition phases were built using the scripts available i
 
 The final submission was generated with:
 ```bash
-uv run scripts/run_phase_2.py --skip_cross_validation --dump_submission_locally
+uv run python scripts/run_phase_2_ensemble.py --n_estimators 30
 ```
 It uses the default configuration ([config.yaml](./config.yaml)).
 
 ## Content
 
-- [scripts](./scripts/): the python scripts to run time cross-validation and generate submissions.
+- [scripts](./scripts/): the python scripts to run time cross-validation and generate submissions, and an additional one to ensamble multiple identical models varying the seed.
 - [notebooks](./notebooks/): notebooks used for exploration, quick tests, and generating configuration files.
 - [vn1](./vn1): codebase
 - [config.yaml](./config.yaml): the default configuration (used to build the final submission).
