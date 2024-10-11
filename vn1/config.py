@@ -39,11 +39,14 @@ class PreprocessingConfig(BaseModel):
 class Config(BaseModel):
     preprocessing_config: PreprocessingConfig
     engine_params: dict[str, Any]
+
     multi_horizon: bool = True
     include_horizon_feature: bool = True
     include_horizon_year: bool = False
     include_horizon_month: bool = False
     include_horizon_day: bool = False
+
+    magic_multiplier: float = 1.0
 
     model_config = ConfigDict(extra="forbid")
 

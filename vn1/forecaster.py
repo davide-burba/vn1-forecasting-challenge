@@ -70,7 +70,10 @@ class Forecaster:
         inference_predictions = (
             multi_h_target[mask].drop(columns=["value", "time"]).reset_index(drop=True)
         )
-        inference_predictions["y_pred"] = self._model.predict(inference_features)
+
+        inference_predictions["y_pred"] = self._predict_with_magic_multiplier(
+            inference_features
+        )
 
         # format output
         print("Formatting output")
@@ -91,6 +94,9 @@ class Forecaster:
             ).rename(columns={"y_pred": f"pred_{horizon}"})
 
         return self._format_inference(future_predictions, last_timestep)
+
+    def _predict_with_magic_multiplier(self, features: pd.DataFrame):
+        return self._model.predict(features) * self.config.magic_multiplier
 
     def _prepare_data_multi_horizon(self, targets, features):
         # prepare data in x,y format
@@ -136,8 +142,8 @@ class Forecaster:
         future_predictions = targets[1][mask][id_cols].reset_index(drop=True)
 
         for horizon in HORIZONS:
-            model = LGBMRegressor(**self.config.engine_params)
-            model.fit(features, targets[horizon].value)
+            self._model = LGBMRegressor(**self.config.engine_params)
+            self._model.fit(features, targets[horizon].value)
 
             mask = targets[horizon].time == last_timestep
             inference_features = features[mask].reset_index(drop=True)
@@ -146,7 +152,9 @@ class Forecaster:
                 .reset_index(drop=True)
                 .drop(columns=["value", "time"])
             )
-            inference_targets["y_pred"] = model.predict(inference_features)
+            inference_targets["y_pred"] = self._predict_with_magic_multiplier(
+                inference_features
+            )
             future_predictions = pd.merge(
                 future_predictions,
                 inference_targets,
@@ -202,13 +210,13 @@ class Forecaster:
             # Train model.
             self._model = LGBMRegressor(**self.config.engine_params)
             self._model.fit(x_train, y_train.value)
-            y_pred = self._model.predict(x_test)
+            y_pred = self._predict_with_magic_multiplier(x_test)
 
             # Inverse normalization by time-series.
             y_pred, y_test = self._inverse_normalize_cv(y_pred, y_test)
 
             # Evaluate.
-            score = compute_competition_score(y_test, y_pred)
+            score = compute_competition_score(y_pred, y_test)
             print(f"Fold {fold} score: {score}")
             mlflow.log_metric(f"score_fold_{fold}", score)
             log_cv_predictions(y_pred, y_test, fold)
@@ -244,14 +252,14 @@ class Forecaster:
                 y_test = targets_h[mask_test].reset_index(drop=True)
 
                 # Train model.
-                model = LGBMRegressor(**self.config.engine_params)
-                model.fit(x_train, y_train.value)
-                y_pred = model.predict(x_test)
+                self._model = LGBMRegressor(**self.config.engine_params)
+                self._model.fit(x_train, y_train.value)
+                y_pred = self._predict_with_magic_multiplier(x_test)
 
                 # Inverse normalization by time-series.
                 y_pred, y_test = self._inverse_normalize_cv(y_pred, y_test)
 
-                score = compute_competition_score(y_test, y_pred)
+                score = compute_competition_score(y_pred, y_test)
                 mlflow.log_metric(f"score_horizon_{horizon}_fold_{fold}", score)
                 scores.append(score)
                 fold_scores.append(score)
