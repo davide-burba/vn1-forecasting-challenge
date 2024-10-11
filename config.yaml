@@ -7,12 +7,32 @@ engine_params:
   num_leaves: 220
   subsample: 0.5
   verbose: 0
-include_horizon_day: true
+
+multi_horizon: true
 include_horizon_feature: true
+include_horizon_day: true
 include_horizon_month: true
 include_horizon_year: true
-multi_horizon: true
+
+magic_multiplier: 0.9955
+
 preprocessing_config:
+  normalize_price: false
+  normalize_sales: false
+
+  date_features:
+  - year
+  - month
+  - day
+
+  static_feature_list:
+  - categorical: true
+    name: Client
+  - categorical: true
+    name: Warehouse
+  - categorical: true
+    name: Product
+
   data_feature_eng_list:
   - feature_eng_list:
     - kind: lag
@@ -257,16 +277,3 @@ preprocessing_config:
     groupby:
     - Product
     source: sales
-  date_features:
-  - year
-  - month
-  - day
-  normalize_price: false
-  normalize_sales: false
-  static_feature_list:
-  - categorical: true
-    name: Client
-  - categorical: true
-    name: Warehouse
-  - categorical: true
-    name: Product
