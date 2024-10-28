@@ -2,6 +2,8 @@
 
 This repository contains the code used for the [VN1 Forecasting challenge](https://www.datasource.ai/en/users/davide-burba/competitions/phase-2-vn1-forecasting-accuracy-challenge/datathon_detail/description).
 
+The submission built with this code got the 8th place, with a score of 0.4992.
+
 
 ## Environment 
 
